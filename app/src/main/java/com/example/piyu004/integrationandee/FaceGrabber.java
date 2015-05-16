@@ -12,6 +12,11 @@ import android.graphics.PointF;
 import android.media.FaceDetector;
 import android.media.FaceDetector.Face;
 import android.os.AsyncTask;
+import android.util.Base64;
+import android.util.Log;
+import android.widget.Toast;
+
+import java.io.ByteArrayOutputStream;
 
 public class FaceGrabber {
     private Bitmap myBitmap;
@@ -46,7 +51,18 @@ public class FaceGrabber {
         }
         return imgBitmap;
     }
+    public String encodeToBase64(Bitmap image){
+        //Toast.makeText(getApplicationContext(), "in encode", Toast.LENGTH_LONG).show();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
 
+        Log.e("LOOK", imageEncoded);
+
+        System.out.println(imageEncoded);
+        return imageEncoded;
+    }
     public static Bitmap scaleDown(Bitmap realImage, float maxImageSize,
                                    boolean filter) {
         float ratio = Math.min((float) maxImageSize / realImage.getWidth(),

@@ -2,8 +2,11 @@ package com.example.piyu004.integrationandee;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -24,11 +27,16 @@ import java.util.Map;
 /**
  * Created by Piyu004 on 5/15/2015.
  */
-public class UploadToServer {
+public class UploadToServer extends ActionBarActivity{
     private String ipAddress = "52.11.86.64";
+    TextView setResult;
     private int portNumber = 80;
     private int timeOut = 10;
-
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.upload);
+        setResult = (TextView)findViewById(R.id.textView);
+    }
     //       encodeTobase64();
 
     /*protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -51,6 +59,9 @@ public class UploadToServer {
 
         }
     }*/
+    public UploadToServer(){
+
+    }
     private Bitmap b = null;
     private Context context;
     String result = null;
@@ -73,7 +84,7 @@ public class UploadToServer {
         return imageEncoded;
     }
 
-    public String testPost(){
+    public void testPost(){
 
         RequestQueue queue = Volley.newRequestQueue(context);
         String url ="http://52.11.86.64/api/find-face.php";
@@ -91,11 +102,12 @@ public class UploadToServer {
                         try {
                             VolleyLog.v("Response:%n %s", response.toString(4));
                             String re = response.toString();
-                            result = re;
-                           // tvT.setText(re);
+                           // result = re;
+                            setResult.setText(re);
                             Toast.makeText(context,re,Toast.LENGTH_SHORT).show();
                         } catch (JSONException e) {
                             Toast.makeText(context,"error",Toast.LENGTH_LONG).show();
+                            result = "error";
                             e.printStackTrace();
                         }
                     }
@@ -107,11 +119,12 @@ public class UploadToServer {
             }
 
         });
+        Toast.makeText(context,result,Toast.LENGTH_SHORT).show();
 
 // add the request object to the queue to be executed
         queue.add(req);
 
-    return result;
+
     }
 
 
